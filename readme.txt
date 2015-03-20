@@ -7,11 +7,11 @@ Tested up to: 4.1.1
 Stable tag: 1.0
 License: Free
 
-MP3 Quran Radio plugin more than 120 radio.
+MP3 Quran Radio plugin more than 120 quran radios.
 
 == Description ==
 
-MP3 Quran Radio plugin more than 120 radio, powered by MP3 Quran (mp3quran.net).
+MP3 Quran Radio plugin more than 120 quran radios, powered by MP3 Quran (mp3quran.net).
 
 
 Major new features in MP3 Quran Radio 1.0 include:
@@ -34,3 +34,5 @@ PS: For Support: [MP3 Quran)](http://www.mp3quran.net).
 1. In Dashboard
 1. Select Radio
 1. In Widget
+
+

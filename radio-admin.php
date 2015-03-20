@@ -6,10 +6,10 @@
 /*
  Plugin Name: MP3 Quran Radio
  Plugin URI: http://www.mp3quran.net
- Description: MP3 Quran Radio more than 120 radio.
+ Description: MP3 Quran Radio plugin more than 120 quran radios.
  Version: 1.0
- Author: mp3quran.net
- Author URI: http://www.mp3quran.net
+ Author: Nwahy
+ Author URI: http://www.nwahy.com
  License: It is Free -_-
 */
 

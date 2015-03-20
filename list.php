@@ -170,7 +170,7 @@ class mp3quran_Radio_Widget extends WP_Widget {
 		parent::__construct(
 			'mp3quran_Radio_Widget', // Base ID
 			__('MP3 Quran Radio', 'mp3quran_widget'), // Name
-			array( 'description' => __( 'More than 120 radio', 'mp3quran_widget' ), ) // Args
+			array( 'description' => __( 'More than 120 quran radios', 'mp3quran_widget' ), ) // Args
 		);
 	}
 
