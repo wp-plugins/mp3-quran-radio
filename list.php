@@ -1,7 +1,7 @@
 <?php
 /* 
  * Radio and Show functions
- * Author: mp3quran.net
+ * Author: Nwahy
  * Since: 1.0
  */
 
