@@ -47,13 +47,45 @@ function mp3quran_adminHeader() {
 
 add_action('admin_head','mp3quran_adminHeader');
 
+function mp3quran_words($k=''){
+
+if ( get_option( 'WPLANG' ) == 'ar'){
+$word['title'] = 'إذاعات موقع MP3Quran';
+$word['error'] = 'خطأ';
+$word['copy'] = 'انسخ الكود <span style="color:#0000ff;">[code]</span> وألصقه بالصفحة أو بالموضوع.<br />إذا أردت إظهار جميع الراديو بقائمة منسدلة فقط انسخ الكود <span style="color:#0000ff;">[Radios]</span> وضعه بصفحتك أو موضوعك';
+$word['select_radio'] = 'اختر الإذاعة:';
+$word['radio_title'] = 'عنوان الإذاعة:';
+$word['radio'] = 'الإذاعة:';
+$word['if_empty'] = 'إذا كان الحقل فارغا فسيتم كتابة اسم الإذاعة تلقائيا.';
+$word['player_options'] = 'خيارات المشغل:';
+$word['player_height'] = 'إرتفاع المشغل.';
+$word['autostart'] = 'التشغيل التلقائي';
+$word['show_title'] = 'مشاهدة العنوان';
+$word['update_options'] = 'تحديث';
+}else{
+$word['title'] = 'MP3 Quran Radio';
+$word['error'] = 'Error ID!';
+$word['copy'] = 'Copy this code <span style="color:#0000ff;">[code]</span> and past in post or page.<br />if you want view all radios by drop menu use this shortcode <span style="color:#0000ff;">[Radios]</span>';
+$word['select_radio'] = 'Select radio:';
+$word['radio_title'] = 'Radio title:';
+$word['radio'] = 'Radio:';
+$word['if_empty'] = 'if empty will write radio title.';
+$word['player_options'] = 'Player options:';
+$word['player_height'] = 'Player height.';
+$word['autostart'] = 'Autostart';
+$word['show_title'] = 'Show title';
+$word['update_options'] = 'Update options';
+}
+return $word[$k];
+}
+
 function mp3quran_get_radio($id,$shownotes=0){
 global $post, $mp3quran_radio_list;
 
 $rands = rand(0,999);
 $languagescount = count($mp3quran_radio_list);
 if($id > $languagescount){
-$code = '<p style="border:1px solid #cccccc; text-align:center; padding:10px;">Error ID!</p>';
+$code = '<p style="border:1px solid #cccccc; text-align:center; padding:10px;">'.mp3quran_words('error').'</p>';
 }else{
 	
 $code = '<div id="mp3quran">';
@@ -91,8 +123,9 @@ $code .= '<div id="mp3quran_container_'.$rands.'">Loading the player...</div>
 </script>';
 $code .= '</div>';
 
+$rep = str_replace('[code]','R['.$id.']',mp3quran_words('copy'));
 if($shownotes == 1){
-$code .= '<div style="padding:7px 0 7px 0;">Copy this code <span style="color:#0000ff;">R['.$id.']</span> and past in post or page.<br />if you want view all radios by drop menu use this shortcode <span style="color:#0000ff;">[Radios]</span></div>';
+$code .= '<div style="padding:7px 0 7px 0;">'.$rep.'</div>';
 }
 $code .= '</div>';
 }
@@ -173,7 +206,7 @@ add_filter('the_content','mp3quran_content_replace');
 add_action( 'admin_menu', 'mp3quran_plugin_menu' );
 
 function mp3quran_plugin_menu() {
-	add_menu_page( 'MP3 Quran Radio', 'MP3 Quran Radio', 'manage_options', 'mp3quran-edit', 'mp3quran_options', ''.trailingslashit(plugins_url(null,__FILE__)).'/i/radio.png' );
+	add_menu_page( ''.mp3quran_words('title').'', ''.mp3quran_words('title').'', 'manage_options', 'mp3quran-edit', 'mp3quran_options', ''.trailingslashit(plugins_url(null,__FILE__)).'/i/radio.png' );
 }
 
 function mp3quran_options() {
@@ -209,14 +242,14 @@ $mp3quran_height = intval(get_option('mp3quran_height'));
 ?>
 	<div id="mp3qurancontent" class="submit">
 			<div class="dbx-content">				
-				<h2>MP3 Quran Radio</h2>
+				<h2><?php echo mp3quran_words('title'); ?></h2>
 				<br />
 	<?php echo mp3quran_get_radio(get_option('mp3quran_form'),1); ?>
 				<form name="sytform" action="" method="post">
 					<input type="hidden" name="submitted" value="1" />
-					<h3>Select radio:</h3>
+					<h3><?php echo mp3quran_words('select_radio'); ?></h3>
 					<div>
-							<label for="mp3quran_form">Radio:</label>
+							<label for="mp3quran_form"><?php echo mp3quran_words('radio'); ?></label>
 						<select name="mp3quran_form" id="mp3quran_form">
 							<?php for($i = 1; $i <= count($mp3quran_radio_list); $i++): ?>
 <option value="<?php echo $i; ?>"<?php echo ( get_option('mp3quran_form') == $i ) ? ' selected="selected"' : ''; ?>><?php echo $i.'- '.$mp3quran_radio_list[$i][0].' - '.$mp3quran_radio_list[$i][1]; ?></option>
@@ -224,30 +257,30 @@ $mp3quran_height = intval(get_option('mp3quran_height'));
 						</select>
 					</div>
 	
-					<h3>Radio Title:</h3>
+					<h3><?php echo mp3quran_words('radio_title'); ?></h3>
 					<div>
 						<input id="mp3quran_title" type="text" name="mp3quran_title" value="<?php echo htmlentities($mp3quran_title); ?>" />
-						<label for="mp3quran_title">if empty will write radio title.</label>
+						<label for="mp3quran_title"><?php echo mp3quran_words('if_empty'); ?></label>
 					</div>
-					
-					<h3>Player Options:</h3>
+
+					<h3><?php echo mp3quran_words('player_options'); ?></h3>
 					<div>
 						<input id="mp3quran_height" type="text" name="mp3quran_height" value="<?php echo intval($mp3quran_height); ?>" />
-						<label for="mp3quran_height">Player height.</label>
+						<label for="mp3quran_height"><?php echo mp3quran_words('player_height'); ?></label>
 					</div>
 						
 					<div>
 						<input id="autostart" type="checkbox" name="mp3quran_autostart" <?php echo $mp3quran_autostart; ?> />
-						<label for="autostart">Autostart</label>
+						<label for="autostart"><?php echo mp3quran_words('autostart'); ?></label>
 					</div>
 					
 					<div>
 						<input id="mp3quran_viewtitle" type="checkbox" name="mp3quran_viewtitle" <?php echo $mp3quran_viewtitle; ?> />
-						<label for="mp3quran_viewtitle">Show title</label>
+						<label for="mp3quran_viewtitle"><?php echo mp3quran_words('show_title'); ?></label>
 					</div>
 					
 					<div style="padding: 1.5em 0;margin: 5px 0;">
-						<input type="submit" name="Submit" value="<?php echo 'Update options'; ?>" />
+						<input type="submit" name="Submit" value="<?php echo mp3quran_words('update_options'); ?>" />
 					</div>
 				</form>
 			</div>   
