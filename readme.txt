@@ -4,7 +4,7 @@ Donate link: http://www.mp3quran.net
 Tags: MP3, Quran, Radio, Radio station, translations of the Quran
 Requires at least: 3.0
 Tested up to: 4.1.1
-Stable tag: 1.0
+Stable tag: 1.1
 License: Free
 
 MP3 Quran Radio plugin more than 120 quran radios.
@@ -14,7 +14,7 @@ MP3 Quran Radio plugin more than 120 quran radios.
 MP3 Quran Radio plugin more than 120 quran radios, powered by MP3 Quran (mp3quran.net).
 
 
-Major new features in MP3 Quran Radio 1.0 include:
+Major new features in MP3 Quran Radio 1.1 include:
 
 * More than 124 radio
 * HTML5 player
@@ -36,3 +36,9 @@ PS: For Support: [MP3 Quran)](http://www.mp3quran.net).
 1. In Widget
 
 
+== Changelog ==
+
+= 1.1 =
+
+* Added: Function view all radios.
+* Fixed: drop menu.
