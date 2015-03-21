@@ -1,13 +1,13 @@
 <?php
 /**
  * @package MP3 Quran Radio
- * @version 1.0
+ * @version 1.1
  */
 /*
  Plugin Name: MP3 Quran Radio
  Plugin URI: http://www.mp3quran.net
  Description: MP3 Quran Radio plugin more than 120 quran radios.
- Version: 1.0
+ Version: 1.1
  Author: Nwahy
  Author URI: http://www.nwahy.com
  License: It is Free -_-
@@ -92,15 +92,79 @@ $code .= '<div id="mp3quran_container_'.$rands.'">Loading the player...</div>
 $code .= '</div>';
 
 if($shownotes == 1){
-$code .= '<div style="padding:7px 0 7px 0;">Copy this code <span style="color:#0000ff;">R['.$id.']</span> and past in post or page.</div>';
+$code .= '<div style="padding:7px 0 7px 0;">Copy this code <span style="color:#0000ff;">R['.$id.']</span> and past in post or page.<br />if you want view all radios by drop menu use this shortcode <span style="color:#0000ff;">[Radios]</span></div>';
 }
 $code .= '</div>';
 }
 return $code;
 } 
 
+function mp3quran_get_all_radio($id=1){
+global $post, $mp3quran_radio_list, $_POST;
+
+if(isset($_POST['radio_id']) && $_POST['radio_id'] != 0){
+$id = intval($_POST['radio_id']);
+}else{
+$id = 1;
+}
+
+$form = '<form name="sytform" action="" method="post">';
+$form .= '<h3>Select radio</h3>';
+$form .= '<div>';
+$form .= '<select name="radio_id" style="width:100%;">';
+for($i = 1; $i <= count($mp3quran_radio_list); $i++){
+	if($id == $i ){
+	$form .= '<option value="'.$i.'" selected="selected">'.$i.'- '.$mp3quran_radio_list[$i][0].' - '.$mp3quran_radio_list[$i][1].'</option>';
+	}else{
+	$form .= '<option value="'.$i.'">'.$i.'- '.$mp3quran_radio_list[$i][0].' - '.$mp3quran_radio_list[$i][1].'</option>';
+	}
+}
+$form .= '</select>';
+$form .= '</div>';
+				
+$form .= '<div style="padding: 1.5em 0;margin: 5px 0;">';
+$form .= '<input type="submit" name="Submit" value="Update options" />';
+$form .= '</div>';
+$form .= '</form>';
+						
+$rands = rand(0,999);
+$languagescount = count($mp3quran_radio_list);
+if($id > $languagescount){
+$code = '<p style="border:1px solid #cccccc; text-align:center; padding:10px;">Error ID!</p>';
+}else{
+	
+$code = '<div id="mp3quran">';
+$code .= $form;
+
+$mp3quran_title = $mp3quran_radio_list[$id][0].'<br />'.$mp3quran_radio_list[$id][1];
+
+if(get_option('mp3quran_autostart') == "on"){ $mp3quranautostart = 'true'; }else{ $mp3quranautostart = 'false'; }
+if(get_option('mp3quran_height') == ""){ $mp3quran_height = 20; }else{ $mp3quran_height = intval(get_option('mp3quran_height')); }
+
+$code .= '<div class="lang">'.$mp3quran_title.'</div>'."\n";
+
+$code .= '<div style="width:100%; margin:5px 0 5px 0;">'."\n";
+$code .= '<div id="mp3quran_container_'.$rands.'">Loading the player...</div>
+<script type="text/javascript">
+	jwplayer("mp3quran_container_'.$rands.'").setup({
+		file: "'.$mp3quran_radio_list[$id][2].'/;*.mp3",
+		autostart: '.$mp3quranautostart.',
+		type: "audio/mpeg",
+		width: "100%",
+		height: "'.$mp3quran_height.'",
+		title: "'.$mp3quran_title.'",
+		controls: true,
+	});
+</script>';
+$code .= '</div>';
+
+$code .= '</div>';
+}
+return $code;
+}
+
 function mp3quran_content_replace ($text){
-$text = preg_replace('/R\[([0-9]*?)\]/e','mp3quran_get_radio(\\1)',$text);
+$text = preg_replace(array('/R\[([0-9]*?)\]/e','/\[Radios\]/e'),array('mp3quran_get_radio(\\1)','mp3quran_get_all_radio(\\1)'),$text);
 return $text;
 }
  

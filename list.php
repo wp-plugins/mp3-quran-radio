@@ -2,7 +2,7 @@
 /* 
  * Radio and Show functions
  * Author: Nwahy
- * Since: 1.0
+ * Since: 1.1
  */
 
 /* List */
